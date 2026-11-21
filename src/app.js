@@ -117,6 +117,9 @@ app.get('/health', (req, res) => {
 
 // ── API Routes ────────────────────────────────────────────────────────────────
 const API_PREFIX = '/api';
+// Uploaded media must also work when production hosts proxy only /api to this
+// service. Keep the legacy /uploads URL and expose the same files via /api.
+app.use(`${API_PREFIX}/uploads`, express.static(path.join(__dirname, '..', 'uploads')));
 
 // Compatibility aliases have their own documented numeric rate-limit envelope.
 app.use(API_PREFIX, (req, res, next) => {
